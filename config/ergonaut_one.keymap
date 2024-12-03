@@ -43,7 +43,7 @@
         compatible = "zmk,combos";
 
         YU {
-            bindings = <&none>;
+            bindings = <&kp LG(NUMBER_4)>;
             key-positions = <6 7>;
         };
 
@@ -53,8 +53,13 @@
         };
 
         HJ {
-            bindings = <&none>;
+            bindings = <&kp LC(SPACE)>;
             key-positions = <18 19>;
+        };
+
+        RT {
+            bindings = <&kp LG(NUMBER_3)>;
+            key-positions = <4 5>;
         };
     };
 
