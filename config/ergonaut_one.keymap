@@ -63,10 +63,10 @@
 
         default_layer {
             bindings = <
-&mt LEFT_CONTROL GRAVE      &kp Q                &kp W            &kp E            &kp R              &kp T           &kp Y          &kp U               &kp I                 &kp O             &kp P                 &mt RCTRL LBKT
-&mt LEFT_ALT RIGHT_BRACKET  &hrm LEFT_CONTROL A  &hrm LEFT_ALT S  &hrm LEFT_GUI D  &hrm LEFT_SHIFT F  &kp G           &kp H          &hrm RIGHT_SHIFT J  &hrm RIGHT_COMMAND K  &hrm RIGHT_ALT L  &hrm RCTRL SEMICOLON  &mt RIGHT_ALT SINGLE_QUOTE
-&mt LEFT_SHIFT MINUS        &kp Z                &kp X            &kp C            &kp V              &kp B           &kp N          &kp M               &kp COMMA             &kp DOT           &kp FSLH              &mt RSHIFT BACKSLASH
-                                                                  &lt RSE TAB      &kp SPACE          &lt LWR ESCAPE  &lt LWR ENTER  &kp SPACE           &lt RSE BACKSPACE
+&kp GRAVE          &kp Q                &kp W            &kp E            &kp R              &kp T           &kp Y          &kp U               &kp I                 &kp O             &kp P                 &kp LC(LBKT)
+&kp RIGHT_BRACKET  &hrm LEFT_CONTROL A  &hrm LEFT_ALT S  &hrm LEFT_GUI D  &hrm LEFT_SHIFT F  &kp G           &kp H          &hrm RIGHT_SHIFT J  &hrm RIGHT_COMMAND K  &hrm RIGHT_ALT L  &hrm RCTRL SEMICOLON  &kp SINGLE_QUOTE
+&kp MINUS          &kp Z                &kp X            &kp C            &kp V              &kp B           &kp N          &kp M               &kp COMMA             &kp DOT           &kp FSLH              &kp BACKSLASH
+                                                         &lt RSE TAB      &kp SPACE          &lt LWR ESCAPE  &lt LWR ENTER  &kp SPACE           &lt RSE BACKSPACE
             >;
         };
 
