@@ -26,6 +26,17 @@
     };
 
     behaviors {
+        // Separate from &mt: do not inherit its 2000 ms term.
+        space_shift: space_shift {
+            compatible = "zmk,behavior-hold-tap";
+            label = "SPACE_SHIFT";
+            #binding-cells = <2>;
+            bindings = <&kp>, <&kp>;
+            flavor = "balanced";
+            tapping-term-ms = <200>;
+            quick-tap-ms = <150>;
+        };
+
         hrm: hrm {
             compatible = "zmk,behavior-hold-tap";
             label = "HRM";
@@ -134,7 +145,7 @@
 &kp GRAVE          &kp Q                &kp W            &kp E            &kp R              &kp T           &kp Y          &kp U               &kp I                 &kp O             &kp P                 &kp LBKT
 &kp RIGHT_BRACKET  &kp A  &kp S  &kp D  &kp F  &kp G           &kp H          &kp J  &kp K  &kp L  &kp SEMICOLON  &kp SINGLE_QUOTE
 &kp MINUS          &kp Z                &kp X            &kp C            &kp V              &kp B           &kp N          &kp M               &kp COMMA             &kp DOT           &kp FSLH              &kp BACKSLASH
-                                                         &lt RSE TAB      &kp SPACE          &lt LWR ESCAPE  &lt LWR ENTER  &kp SPACE           &lt RSE BACKSPACE
+                                                         &lt RSE TAB      &space_shift LEFT_SHIFT SPACE  &lt LWR ESCAPE  &lt LWR ENTER  &space_shift RIGHT_SHIFT SPACE  &lt RSE BACKSPACE
             >;
         };
 
