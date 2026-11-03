@@ -1,0 +1,13 @@
+/* USB CDC console alongside the existing HID keyboard; no GPIO changes. */
+/ {
+    chosen {
+        zephyr,console = &hrm_diag_uart;
+        zephyr,shell-uart = &hrm_diag_uart;
+    };
+};
+
+&usbd {
+    hrm_diag_uart: hrm_diag_uart {
+        compatible = "zephyr,cdc-acm-uart";
+    };
+};

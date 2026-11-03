@@ -27,7 +27,7 @@ jobs:
           exec > >(tee "$GITHUB_WORKSPACE/hrm-build.log") 2>&1
           mkdir -p output
           west init -l config
-          west update --fetch-opt=--filter=tree:0
+          west update --narrow --fetch-opt=--depth=1 --fetch-opt=--filter=tree:0
           west zephyr-export
           west manifest --freeze --active-only > output/manifest-frozen.yml
           west build -s zmk/app -d build/base-left -b seeeduino_xiao_ble -- -DZMK_CONFIG="$GITHUB_WORKSPACE/config" -DSHIELD=ergonaut_one_left
@@ -37,13 +37,22 @@ jobs:
           cp build/base-right/zephyr/zmk.uf2 output/right-baseline.uf2
           python3 diagnostics/instrument.py zmk
           git -C zmk diff > output/instrumentation.patch
-          west build -s zmk/app -d build/diag-left -b seeeduino_xiao_ble -- -DZMK_CONFIG="$GITHUB_WORKSPACE/config" -DSHIELD=ergonaut_one_left -DEXTRA_CONF_FILE="$GITHUB_WORKSPACE/diagnostics/logging.conf"
+          west build -s zmk/app -d build/diag-left -b seeeduino_xiao_ble -- -DZMK_CONFIG="$GITHUB_WORKSPACE/config" -DSHIELD=ergonaut_one_left -DEXTRA_CONF_FILE="$GITHUB_WORKSPACE/diagnostics/logging.conf" -DEXTRA_DTC_OVERLAY_FILE="$GITHUB_WORKSPACE/diagnostics/usb.overlay"
           cp build/diag-left/zephyr/zmk.uf2 output/left-diagnostic.uf2
           cp build/diag-left/zephyr/.config output/left-diagnostic.config
           cp build/diag-left/zephyr/zephyr.dts output/left-diagnostic.dts
           if grep -q '^CONFIG_ZMK_SETTINGS_RESET_ON_START=y' output/*.config; then exit 1; fi
           python3 diagnostics/check_uf2.py output/*.uf2 > output/uf2-checks.json
           cp diagnostics/diagnose.py output/
+      - name: Save fetched modules even if a later build fails
+        if: always()
+        uses: actions/cache/save@v4
+        with:
+          path: |
+            modules/
+            zephyr/
+            tools/
+          key: hrm-zmk-2024-v1
       - name: Keep build log even on failure
         if: always()
         uses: actions/upload-artifact@v4
