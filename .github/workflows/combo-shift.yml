@@ -1,0 +1,47 @@
+name: Combo Shift without logging
+on:
+  push:
+    branches: [combo-shift]
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  build:
+    runs-on: ubuntu-22.04
+    timeout-minutes: 30
+    container:
+      image: zmkfirmware/zmk-build-arm:stable
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/cache@v4
+        with:
+          path: |
+            modules/
+            zephyr/
+            tools/
+          key: hrm-zmk-2024-v1
+      - name: Build clean application images
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p output
+          west init -l config
+          west update --narrow --fetch-opt=--depth=1 --fetch-opt=--filter=tree:0
+          west zephyr-export
+          west manifest --freeze --active-only > output/manifest-frozen.yml
+          # Diagnostics deliberately disabled. To restore, use hrm-diagnostics.yml
+          # with instrument.py, logging.conf and usb.overlay on its own branch.
+          # python3 diagnostics/instrument.py zmk
+          for side in left right; do
+            west build -s zmk/app -d build/$side -b seeeduino_xiao_ble -- -DZMK_CONFIG="$GITHUB_WORKSPACE/config" -DSHIELD=ergonaut_one_$side
+            cp build/$side/zephyr/zmk.uf2 output/$side-combo-shift.uf2
+            cp build/$side/zephyr/.config output/$side.config
+            cp build/$side/zephyr/zephyr.dts output/$side.dts
+          done
+          if grep -Eq '^CONFIG_(LOG|ZMK_USB_LOGGING|ZMK_RTT_LOGGING|ZMK_SETTINGS_RESET_ON_START)=y' output/*.config; then exit 1; fi
+          python3 diagnostics/check_uf2.py output/*.uf2 > output/uf2-checks.json
+      - uses: actions/upload-artifact@v4
+        with:
+          name: combo-shift-no-logging
+          path: output/
+          retention-days: 30
