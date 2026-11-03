@@ -13,6 +13,13 @@ jobs:
       image: zmkfirmware/zmk-build-arm:stable
     steps:
       - uses: actions/checkout@v4
+      - uses: actions/cache@v4
+        with:
+          path: |
+            modules/
+            zephyr/
+            tools/
+          key: hrm-zmk-2024-v1
       - name: Build baseline and diagnostic images without flashing
         shell: bash
         run: |
@@ -22,7 +29,7 @@ jobs:
           west init -l config
           west update --fetch-opt=--filter=tree:0
           west zephyr-export
-          west manifest --freeze > output/manifest-frozen.yml
+          west manifest --freeze --active-only > output/manifest-frozen.yml
           west build -s zmk/app -d build/base-left -b seeeduino_xiao_ble -- -DZMK_CONFIG="$GITHUB_WORKSPACE/config" -DSHIELD=ergonaut_one_left
           cp build/base-left/zephyr/zmk.uf2 output/left-baseline.uf2
           cp build/base-left/zephyr/.config output/left-baseline.config
