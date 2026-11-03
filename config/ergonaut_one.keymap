@@ -42,7 +42,7 @@
     combos {
         compatible = "zmk,combos";
 
-        // Dedicated Shift chords on the base layer; no hold-tap on F/J.
+        // Dedicated modifier chords on the base layer; letters have no hold-tap.
         // Keep Shift pressed until BOTH chord keys have been released.
         shift_left {
             bindings = <&kp LEFT_SHIFT>;
@@ -54,6 +54,54 @@
         shift_right {
             bindings = <&kp RIGHT_SHIFT>;
             key-positions = <7 19>; // U + J
+            timeout-ms = <50>;
+            layers = <DEF>;
+            slow-release;
+        };
+
+        ctrl_left {
+            bindings = <&kp LEFT_CONTROL>;
+            key-positions = <1 13>; // Q + A
+            timeout-ms = <50>;
+            layers = <DEF>;
+            slow-release;
+        };
+
+        ctrl_right {
+            bindings = <&kp RIGHT_CONTROL>;
+            key-positions = <10 22>; // P + ;
+            timeout-ms = <50>;
+            layers = <DEF>;
+            slow-release;
+        };
+
+        alt_left {
+            bindings = <&kp LEFT_ALT>;
+            key-positions = <2 14>; // W + S
+            timeout-ms = <50>;
+            layers = <DEF>;
+            slow-release;
+        };
+
+        alt_right {
+            bindings = <&kp RIGHT_ALT>;
+            key-positions = <9 21>; // O + L
+            timeout-ms = <50>;
+            layers = <DEF>;
+            slow-release;
+        };
+
+        cmd_left {
+            bindings = <&kp LEFT_GUI>;
+            key-positions = <3 15>; // E + D
+            timeout-ms = <50>;
+            layers = <DEF>;
+            slow-release;
+        };
+
+        cmd_right {
+            bindings = <&kp RIGHT_GUI>;
+            key-positions = <8 20>; // I + K
             timeout-ms = <50>;
             layers = <DEF>;
             slow-release;
@@ -87,7 +135,7 @@
         default_layer {
             bindings = <
 &kp GRAVE          &kp Q                &kp W            &kp E            &kp R              &kp T           &kp Y          &kp U               &kp I                 &kp O             &kp P                 &kp LBKT
-&kp RIGHT_BRACKET  &hrm LEFT_CONTROL A  &hrm LEFT_ALT S  &hrm LEFT_GUI D  &kp F  &kp G           &kp H          &kp J  &hrm RIGHT_COMMAND K  &hrm RIGHT_ALT L  &hrm RCTRL SEMICOLON  &kp SINGLE_QUOTE
+&kp RIGHT_BRACKET  &kp A  &kp S  &kp D  &kp F  &kp G           &kp H          &kp J  &kp K  &kp L  &kp SEMICOLON  &kp SINGLE_QUOTE
 &kp MINUS          &kp Z                &kp X            &kp C            &kp V              &kp B           &kp N          &kp M               &kp COMMA             &kp DOT           &kp FSLH              &kp BACKSLASH
                                                          &lt RSE TAB      &kp SPACE          &lt LWR ESCAPE  &lt LWR ENTER  &kp SPACE           &lt RSE BACKSPACE
             >;

@@ -1,8 +1,11 @@
-name: Combo Shift without logging
+name: Modifier combos without logging
 on:
   push:
     branches: [combo-shift]
   workflow_dispatch:
+concurrency:
+  group: modifier-combos-${{ github.ref }}
+  cancel-in-progress: true
 permissions:
   contents: read
 jobs:
